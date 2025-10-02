@@ -344,6 +344,14 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
           // globs: ['src/panel/component/*.vue'],
         }),
         new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+<<<<<<< HEAD
+=======
+        new webpack.DefinePlugin({
+          __VUE_OPTIONS_API__: false,
+          __VUE_PROD_DEVTOOLS__: process.env.CI !== 'true',
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
+        }),
+>>>>>>> 0603dcbcec1e6596d397ac2f51711bb7475e04c6
       )
       .concat(
         should_obfuscate
@@ -417,6 +425,12 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
       if (builtin.includes(request)) {
         return callback();
       }
+<<<<<<< HEAD
+=======
+      if (argv.mode !== 'production' && ['vue', 'pixi'].some(key => request.includes(key))) {
+        return callback();
+      }
+>>>>>>> 0603dcbcec1e6596d397ac2f51711bb7475e04c6
       const global = {
         jquery: '$',
         lodash: '_',
