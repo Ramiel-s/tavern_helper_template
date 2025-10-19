@@ -5,6 +5,10 @@ import fs from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 import url from 'node:url';
+<<<<<<< HEAD
+=======
+import RemarkHTML from 'remark-html';
+>>>>>>> f520e0edc6dceb504cb6622b30bad047453c3dd5
 import { Server } from 'socket.io';
 import TerserPlugin from 'terser-webpack-plugin';
 import TsconfigPathsPlugin from 'tsconfig-paths-webpack-plugin';
@@ -228,10 +232,33 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
               exclude: /node_modules/,
             },
             {
+<<<<<<< HEAD
               test: /\.html?$/,
               use: 'html-loader',
               exclude: /node_modules/,
             },
+=======
+              test: /\.html$/,
+              use: 'html-loader',
+              exclude: /node_modules/,
+            },
+            {
+              test: /\.md$/,
+              use: [
+                {
+                  loader: 'html-loader',
+                },
+                {
+                  loader: 'remark-loader',
+                  options: {
+                    remarkOptions: {
+                      plugins: [RemarkHTML],
+                    },
+                  },
+                },
+              ],
+            },
+>>>>>>> f520e0edc6dceb504cb6622b30bad047453c3dd5
           ].concat(
             entry.html === undefined
               ? <any[]>[
@@ -334,16 +361,33 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
             'pinia',
             '@vueuse/core',
             { from: 'dedent', imports: [['default', 'dedent']] },
+<<<<<<< HEAD
+=======
+            { from: 'klona', imports: ['klona'] },
+            { from: 'vue-final-modal', imports: ['useModal'] },
+>>>>>>> f520e0edc6dceb504cb6622b30bad047453c3dd5
             { from: 'zod', imports: ['z'] },
           ],
         }),
         unpluginVueComponents({
           dts: true,
           syncMode: 'overwrite',
+<<<<<<< HEAD
           resolvers: [VueUseComponentsResolver(), VueUseDirectiveResolver()],
           // globs: ['src/panel/component/*.vue'],
         }),
         new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+=======
+          // globs: ['src/panel/component/*.vue'],
+          resolvers: [VueUseComponentsResolver(), VueUseDirectiveResolver()],
+        }),
+        new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }),
+        new webpack.DefinePlugin({
+          __VUE_OPTIONS_API__: false,
+          __VUE_PROD_DEVTOOLS__: process.env.CI !== 'true',
+          __VUE_PROD_HYDRATION_MISMATCH_DETAILS__: false,
+        }),
+>>>>>>> f520e0edc6dceb504cb6622b30bad047453c3dd5
       )
       .concat(
         should_obfuscate
@@ -417,6 +461,12 @@ function parse_configuration(entry: Entry): (_env: any, argv: any) => webpack.Co
       if (builtin.includes(request)) {
         return callback();
       }
+<<<<<<< HEAD
+=======
+      if (argv.mode !== 'production' && ['vue', 'pixi'].some(key => request.includes(key))) {
+        return callback();
+      }
+>>>>>>> f520e0edc6dceb504cb6622b30bad047453c3dd5
       const global = {
         jquery: '$',
         lodash: '_',
